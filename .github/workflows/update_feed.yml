@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 7 * * *'  # Runs at 7:00 UTC every day
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   build:
