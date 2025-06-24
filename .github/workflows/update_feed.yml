@@ -23,10 +23,14 @@ jobs:
       - name: Generate RSS feed
         run: python generate_feed.py
 
-      - name: Commit and push RSS feed
+      - name: Check for changes and commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: backup data
+             
+      - name: Push Changes
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add great_read_rss.xml
-          git commit -m "Update RSS feed" || echo "No changes to commit"
-          git push
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git push origin main
